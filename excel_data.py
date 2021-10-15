@@ -62,8 +62,10 @@ class ExcelData():
         self.sheets = []
         self.sheet_number = None
         self.is_init = False
+        self.id = 0
+        self.file_name = None
 
-    def load(self,file_path):
+    def load(self,file_path,id):
         try:
             #Excelのファイルを読み込む。
             book = openpyxl.load_workbook(file_path)
@@ -82,6 +84,14 @@ class ExcelData():
             #リストに追加。
             self.sheets.append(sh)
 
+
+        #ファイルの名前を抽出していく、/と.を除いていく
+        slash_number = file_path.rfind('/')
+        if slash_number == -1:
+            self.file_name = file_path
+        else:
+            self.file_name = file_path[slash_number + 1:]
+        self.id = id
         self.is_init = True
         return True
 
