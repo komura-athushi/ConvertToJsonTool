@@ -101,5 +101,7 @@ class ExcelData():
             return None
         return self.sheets[sheet_number]
 
-
+    #シート一覧を取得
+    def get_sheets(self):
+        return self.sheets
 
