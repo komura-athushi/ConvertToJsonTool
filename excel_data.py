@@ -1,35 +1,44 @@
 import openpyxl
-
-#行クラス。
-#1行ごとの要素を保持する。
-class Row():
-    def __init__(self):
-        self.cells = []
-
-    #行ごとのセルを読み込む。
-    def load_cell(self,row):
-        #セルを1つずつ読み込む。
-        for cell in row:
-            self.cells.append(cell.value)
+            
 
 #エクセルのシート毎のデータを保持
 class Sheet():
     def __init__(self):
         #リストを初期化。
-        self.rows = []
+        self.rows = {}
         self.sheet_name = None
+
+
+    #行ごとのセルを読み込む。
+    def load_cell(self,row):
+        cells = []
+        #セルを1つずつ読み込む。
+        i = 0
+        for cell in row:
+            i += 1
+            #3つ以上は読み込まない。
+            if i >=3:
+                break
+            cells.append(cell.value)
+        return cells[0],cells[1]
 
     #エクセルのシートを読み込む。
     def load(self,sheet):
         self.sheet_name = sheet.title
+        i = 0
         for line in sheet:
+            #最初の1行目は読み込まない
+            if i == 0:
+                i += 1
+                continue
             #1行ずつ読み込んで、リストに追加する。
-            row = Row()
-            row.load_cell(line)
-            self.rows.append(row)
+            key,value = self.load_cell(line)
+            if key == None or value == None:
+                continue
+            self.rows[key] = value
 
     #行番号と列番号を指定して、セルを取得。
-    def get_cell(self,row_number,col_number):
+    '''def get_cell(self,row_number,col_number):
         #リストは0から始まるが、エクセルは1から始まるので-1する。
         row_number -= 1
         col_number -= 1
@@ -51,7 +60,7 @@ class Sheet():
         if row_number >= len(self.rows):
             return None
 
-        return self.rows[row_number].cells
+        return self.rows[row_number].cells'''
 
     #行要素の数を取得
     def get_row_number(self):

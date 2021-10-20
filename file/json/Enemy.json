@@ -1,0 +1,5 @@
+{
+    "Model": "Assets/modelData/enemy.tkm",
+    "Attack": "Assets/animData/attack.tkm",
+    "Idle": "Assets/animData/idle.tkm"
+}

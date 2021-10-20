@@ -13,6 +13,11 @@ import excel_data
 #定数データ
 import constant
 
+#jsonファイルを扱うためのライブラリ
+import json
+
+import os
+
 #エクセルを読み込む。
 #data = excel_data.ExcelData()
 #data.load("file/data.xlsx")
@@ -85,7 +90,7 @@ class Application(tk.Frame):
 
         #リストボックスに名前を追加
         self.excel_list.insert(tk.END, book.file_name) 
-        return
+     
 
     def delete_excel(self):
         number = self.excel_list.curselection()
@@ -103,10 +108,21 @@ class Application(tk.Frame):
                 self.books.pop(i)
                 break
             number2 += 1
-        return
+        #リストをクリア
+        self.sheet_list.delete(0,tk.END)
 
     def export_json(self):
-        return
+        #自身のフォルダパスを表示するように
+        iDir = os.path.abspath(os.path.dirname(__file__))
+        iDirPath = filedialog.askdirectory(initialdir = iDir)
+        for i in self.books:
+             for sheet in self.books[i].sheets:
+                filePath = iDirPath
+                filePath += "/" + sheet.sheet_name + ".json"
+                with open(filePath, 'w') as f:
+                    rows = sheet.rows
+                    json.dump(rows,f,indent=4,ensure_ascii=False)
+        
 
     def null(self):
         return
@@ -198,7 +214,7 @@ class Application(tk.Frame):
 
 
     
-        return
+
 
 
 #インスタンスを作成。

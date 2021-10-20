@@ -1,0 +1,5 @@
+{
+    "model": "Assets/modelData/Player.tkm",
+    "Idle": "Assets/animData/Idle.tkm",
+    "Number": 1
+}
